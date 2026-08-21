@@ -26,7 +26,7 @@ jobs:
 
       - run: echo "Lint passed!"
 
-test:
+  test:
   name: Run Tests
   runs-on: ubuntu-latest
 
