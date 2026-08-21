@@ -1,0 +1,25 @@
+parameters:
+- name: nodeVersion
+  type: string
+  default: '20'
+
+- name: runTests
+  type: boolean
+  default: true
+
+steps:
+
+- task: NodeTool@0
+  displayName: 'Install Node.js ${{ parameters.nodeVersion }}'
+  inputs:
+    versionSpec: '${{ parameters.nodeVersion }}.x'
+
+- script: npm ci
+  displayName: 'Install dependencies'
+
+- script: npm test
+  displayName: 'Run tests'
+  condition: eq('${{ parameters.runTests }}', 'true')
+
+- script: npm run build
+  displayName: 'Build'
