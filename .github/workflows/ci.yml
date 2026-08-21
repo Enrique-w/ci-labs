@@ -27,29 +27,29 @@ jobs:
       - run: echo "Lint passed!"
 
   test:
-  name: Run Tests
-  runs-on: ubuntu-latest
+    name: Run Tests
+    runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-    - name: Cache node_modules
-      uses: actions/cache@v4
-      with:
-        path: ~/.npm
-        key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          npm-${{ runner.os }}-
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run tests
-      run: npm test
+      - name: Run tests
+        run: npm test
 
   security-scan:
     name: Security Scan
@@ -75,7 +75,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - uses: actions/upload-artifact@v4
         with:
